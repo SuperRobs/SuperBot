@@ -1,0 +1,222 @@
+[[BANNED STUFF]]
+    [FORBIDDEN EMOJIS]
+        phrases=    "🤣"
+                "😂"
+    answers=    "You got muted for endangering the general well-being!"
+    everybody= True
+    special= mute
+    [/FORBIDDEN EMOJIS]
+[[/BANNED STUFF]]
+
+[GOOD BOT]
+phrases=    "good bot"
+answers=    "Thank you uwu!"
+everybody= False
+    orCa64: replace= "No, I am not taking compliments from you anymore!"
+    Superrobs: replace= "Wow, complimenting yourself again, eh?"
+special= increment_good_bot
+[/GOOD BOT]
+
+[BAD BOT]
+phrases=    "bad bot"
+answers=    "WHAT. why? What have I ever done to you?"
+everybody= False
+    orCa64: add= "Oh you... Yeah well fair"
+    Superrobs: replace= "Ooh, self-burn! Those are rare!"
+special= decrement_good_bot
+[/BAD BOT]
+
+[HELLO]
+phrases=    "guten tag",
+            "hallo",
+            "hallö",
+            "hallü",
+            "hello",
+            "hellö",
+            "hellu",
+            "helluwu",
+            "hellü",
+            "henlo",
+            "hewwo",
+            "hewwu",
+            "hewwü",
+            "hey",
+            "hi ",
+            "howdy",
+            "moin",
+            "tach",
+            "welcome"
+answers=    "Hallo",
+            "Hallö",
+            "Hallü",
+            "Hello",
+            "Hellö",
+            "Hellu",
+            "Helluwu",
+            "Hellü",
+            "Henlo",
+            "Hewwo",
+            "Hewwu",
+            "Hey",
+            "Hi",
+            "Howdy",
+            "Moin",
+            "Welcome"
+everybody= True
+[/HELLO]
+
+[FORBIDDEN_HELLOS]
+phrases=    "grüß gott",
+            "grüezi",
+            "servus"
+answers=    "Eww"
+everybody= True
+[/FORBIDDEN_HELLOS]
+
+[[PUNS]]
+[GOODPUN]
+phrases=    "!goodpun"
+answers=    "Don't try me..."
+everybody= False
+    orCa64: replace= "Don't act like you would need a good one to laugh about"
+[/GOODPUN]
+
+[BADPUN]
+phrases=    "!badpun"
+answers=    "I'm not doing this."
+everybody= True
+[/BADPUN]
+[[/PUNS]]
+
+
+[WHAT DO YOU SAY]
+phrases=    "soupi, what do you say",
+            "bot, what do you say",
+            "soupi what do you say",
+            "bot what do you say",
+            "soupi, what's your opinion'",
+            "bot, what's your opinion",
+            "soupi what's your opinion'",
+            "bot what's your opinion",
+            "soupi, whats your opinion'",
+            "bot, whats your opinion",
+            "soupi whats your opinion'",
+            "bot whats your opinion"
+answers= "Huh, uhhh... I agree? I guess?"
+everybody= False
+    orCa64: replaceMult=    "Well that's simple:",
+                            "You're dumb!"
+    Superrobs: replace=     "I totally agree!"
+[/WHAT DO YOU SAY]
+
+[SOUPI]
+phrases=    "soupi"
+answers=    "*wakes up* HLEP somebody said my name?"
+everybody= False
+    Superrobs: addMult= "wait",
+                        "you...",
+                        "Who kidnapped my creator?!",
+                        "He'd only use my beloved nickname in my dreams... still please don't kill my dad TwT"
+[/SOUPI]
+
+[[ZWEIDEUTIGKEITEN]]
+[FICKEN]
+phrases=    "fick mich",
+            "fuck me",
+            "ficken",
+            "ficke"
+answers=    "no thanks I'll pass"
+everybody= False
+    Mirakula: replaceMult=  "I hadn't imagined you so indiscreet...",
+                            "...Is that a serious offer; Moomy? 🥺"
+    Aranie: replace=        "You always smexy! But not here! Or... If you want...?"
+    orCa64: replace=        "What are you doing step-mother?"
+    Superrobs: replace=     "uhh, Daddy?"
+    VelvetVanya: replace=   "So the rumours about you wanting a one-night-stand are true?"
+    Aquacron: replace=      "MartH says sure, she's lying right next to me, mind if I give her to you?"
+    Troublmaker: replace=   "Hey but isn't that Lars' job?"
+    kühleTomate: replace=   "Eww no"
+    that0ne: replace=       "I've always liked the color green, but that?"
+    Loster-man: replace=    "You sure you know what you're implying here? Do you even know what that word means?"
+[/FICKEN]
+
+[THATS WHAT SHE SAID]
+phrases=    "geil",
+            "puff",
+            "bock",
+            "komm",
+            "come ",
+            "comi"
+answers=    "that's what she said"
+everybody= True
+[/THATS WHAT SHE SAID]
+[[/ZWEIDEUTIGKEITEN]]
+
+[HUG]
+phrases=    "hate my life",
+            "hasse mein leben"
+answers=    "*virtual hug*"
+everybody= False
+    Mirakula: add=      "you are pretty..."
+    orCa64: replace=    "Hey same, I hate your life too!"
+[/HUG]
+
+[GESELLSCHAFT]
+phrases=    "gesellschaft"
+answers=    ""
+everybody= False
+    orCa64: replaceMult=    "Und weißt du was die Gesellschaft dann gemacht hat? Die hat Puff gemacht!",
+                            "(That's what she said!)"
+[/GESELLSCHAFT]
+
+
+[[MUSIC]]
+[SATISFIED]
+phrases=    "satisfied"
+answers=    "I will never be satisfied"
+everybody= True
+[/SATISFIED]
+
+[TELL ME WHY]
+phrases=    "tell me why",
+            "tell me y"
+answers=    "ain't nothing but a heartbreak"
+everybody= True
+[/TELL ME WHY]
+[[MUSIC]]
+
+
+[BEN]
+phrases=    "wired"
+answers=    "Are you Ben?"
+everybody= False
+    Loster-man: replace= "*weird"
+[/BEN]
+
+[SINN]
+phrases=    "ergibt sinn",
+            "macht sinn"
+answers=    "*tut"
+everybody= True
+[/SINN]
+
+
+[[ARCANE]]
+[HAGGLE]
+phrases= "haggl"
+answers= "The boy didn't even haggle"
+everybody= True
+[/HAGGLE]
+
+[MISERY]
+phrases=    "oh the misery"
+answers=    "everybody wants to be my enemy"
+everybody= True
+[/MISERY]
+[[/ARCANE]]
+
+[XMAS]
+phrases= "aber pls du willst mir nichts zu weihnachten schenken, oder?"
+answers= "yes. Hi."
+everybody= full of hate and joy ofc
+[/XMAS]
