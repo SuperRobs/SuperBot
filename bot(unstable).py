@@ -425,10 +425,13 @@ async def on_message(message):
                     emoji_muted.append(message)
             #compare message with phrases in file to see if any matches
             if key == 'phrases':
-                start = line.index('"')
+                start = line.index('"') + 1
                 end = line.index('"',start+1)
-                if line[start+1:end] in message.content.lower():   
-                    searchAnswers = True
+                #TODO 
+                # -> check if there is a letter afterwards, ignore if there is one
+                if line[start:end] in message.content.lower():
+                    if message.content[message.content.find(line[start:end])+1] == ' ' or message.content[message.content.find(line[start:end])+1] == '\n': #this only works if it is a space or newline, but what if it is empty/out of range? (TODO Also test me!)
+                        searchAnswers = True
             #if searchAnswers is true and an answers section is reached, save these answers to possible_answers
             elif searchAnswers and key == 'answers':
                 start = line.index('"')
