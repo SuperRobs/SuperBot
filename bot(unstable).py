@@ -283,7 +283,6 @@ async def on_message(message):
     #don't react to own or other bots' messages to avoid infinite self answer loops (f.e. a possible hello loop)
     if message.author.bot:
         return
-
     blocked_users = [
         "purplpasta"
     ]
@@ -323,8 +322,6 @@ async def on_message(message):
                 await message.channel.send('-')
                 wordchainHandler.sentence.clear()
                 wordchainHandler.status = gameStates.ROUND
-
-            
 
         illegal_channels = [
             #Bot Testing
@@ -374,8 +371,8 @@ async def on_message(message):
             if key == 'False' and searchAnswers:
                 if (message.author.name+':') in line:
                     start = line.index('"')
-                    end = line.index('"',start+1) 
-                    if 'add=' in line: 
+                    end = line.index('"',start+1)
+                    if 'add=' in line:
                         added_msg.append(line[start+1:end])
                     if 'replace=' in line:
                         possible_answers.clear()
@@ -384,6 +381,7 @@ async def on_message(message):
                         start = line.index('"')
                         end = line.index('"',start+1)
                         added_msg.append(line[start+1:end])
+                        #TODO
                         #MUST BE AT END OF LINE TO NOT CATCH COMMAS IN PHRASES
                         if ',' in line:
                             key = 'searchMult'
