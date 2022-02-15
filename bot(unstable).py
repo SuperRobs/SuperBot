@@ -283,6 +283,7 @@ async def on_message(message):
     #don't react to own or other bots' messages to avoid infinite self answer loops (f.e. a possible hello loop)
     if message.author.bot:
         return
+
     blocked_users = [
         "purplpasta"
     ]
@@ -415,7 +416,7 @@ async def on_message(message):
                 with open(COUNTER_FILE, 'w') as handle:
                     json.dump(good_bot_counter, handle)
                 if 'mute' in line:
-                    role = discord.utils.get(message.guild.roles, name='muted')                 
+                    role = discord.utils.get(message.guild.roles, name='muted')
                     if role == None:
                         await message.channel.send('please create a "muted" role to apply!')
                         return
@@ -423,8 +424,8 @@ async def on_message(message):
                     emoji_muted.append(message)
             #compare message with phrases in file to see if any matches
             if key == 'phrases':
-                start = line.index('"') + 1
-                end = line.index('"',start+1)
+                start = line.index('"')+1
+                end = line.index('"',start)
                 #TODO 
                 # -> check if there is a letter afterwards, ignore if there is one
                 if line[start:end] in message.content.lower():
@@ -432,15 +433,24 @@ async def on_message(message):
                         searchAnswers = True
             #if searchAnswers is true and an answers section is reached, save these answers to possible_answers
             elif searchAnswers and key == 'answers':
-                start = line.index('"')
-                end = line.index('"',start+1)
-                possible_answers.append(line[start+1:end])
+                start = line.index('"')+1
+                end = line.index('"',start)
+                possible_answers.append(line[start:end])
             #this is part of every ending tag and thus will be used as escape combination, making the closing tag mandatory while the opening tag is not (even though greatly encouraged)
             elif searchAnswers and '[/' in line:
                 break
+        #this else refers to the loop of the lines, it triggers when no
         else:
             #before the return eventual commands have to be processed
             await bot.process_commands(message)
+            #This one has to copy parts of the original message, I could do it as a special but I think that would be largely inefficient, as I'd in every case try to send an empty message
+            if 'i\'m' in message.content.lower():
+                start = message.content.find('i\'m') + 3
+                await message.channel.send(f'Hi {message.content[start:]}, I\'m Soupi')
+
+            if 'i am' in message.content.lower():
+                start= message.content.find('i am') + 4
+                await message.channel.send(f'Hi{message.content[start:]}, I\'m Soupi')
             return
         
         #a random of the answers saved in possible_answers is choosen and broadcast
