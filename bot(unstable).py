@@ -443,12 +443,22 @@ async def on_message(message):
             await bot.process_commands(message)
             #This one has to copy parts of the original message, I could do it as a special but I think that would be largely inefficient, as I'd in every case try to send an empty message
             if 'i\'m' in message.content.lower():
-                start = message.content.find('i\'m') + 3
-                await message.channel.send(f'Hi {message.content[start:]}, I\'m Soupi')
+                print(start)
+                print(message.content.lower().find('i\'m'))
+                start = message.content.lower().find('i\'m') + 3
+                print(start)
+                await message.channel.send(f'Hi{message.content[start:]}, I\'m Soupi')
 
             if 'i am' in message.content.lower():
-                start= message.content.find('i am') + 4
+                print(start)
+                print(message.content.lower().find('i am'))
+                start= message.content.lower().find('i am') + 4
+                print(start)
                 await message.channel.send(f'Hi{message.content[start:]}, I\'m Soupi')
+
+            if 'ich bin' in message.content.lower():
+                start= message.content.lower().find('ich bin') + 4
+                await message.channel.send(f'Hi{message.content[start:]}, ich bin Soupi')
             return
         
         #a random of the answers saved in possible_answers is choosen and broadcast
