@@ -41,7 +41,7 @@ phrases=    "guten tag",
             "hewwu",
             "hewwü",
             "hey",
-            "hi ",
+            "hi",
             "howdy",
             "moin",
             "tach",
@@ -145,7 +145,7 @@ phrases=    "geil",
             "puff",
             "bock",
             "komm",
-            "come ",
+            "come",
             "comi"
 answers=    "that's what she said"
 everybody= True
