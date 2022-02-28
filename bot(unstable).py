@@ -405,18 +405,30 @@ async def on_message(message):
                 global good_bot_counter
                 if 'increment_good_bot' in line:
                     good_bot_counter += 1
+                    with open(COUNTER_FILE, 'w') as handle:
+                        json.dump(good_bot_counter, handle)
                 elif 'decrement_good_bot' in line:
                     if good_bot_counter > 0:
                         good_bot_counter -= 1
-                with open(COUNTER_FILE, 'w') as handle:
-                    json.dump(good_bot_counter, handle)
-                if 'mute' in line:
+                    with open(COUNTER_FILE, 'w') as handle:
+                        json.dump(good_bot_counter, handle)
+                elif 'mute' in line:
                     role = discord.utils.get(message.guild.roles, name='muted')
                     if role == None:
                         await message.channel.send('please create a "muted" role to apply!')
                         return
                     await message.author.add_roles(role)
                     emoji_muted.append(message)
+                elif 'i_am_dadjoke' in line:
+                    if 'i\'m' in message.content.lower():
+                        start = message.content.lower().find('i\'m') + 4
+                    elif 'i am' in message.content.lower():
+                        start = message.content.lower().find('i am') + 5
+                    elif 'ich bin' in message.content.lower():
+                        start = message.content.lower().find('ich bin') + 8
+                    elif 'im' in message.content.lower():
+                        start = message.content.lower().find('im') + 3
+                    await message.channel.send(f'Hi {message.content[start:]}, I\'m Soupi')
             #compare message with phrases in file to see if any matches
             if key == 'phrases':
                 start = line.index('"')+1
@@ -439,19 +451,13 @@ async def on_message(message):
         else:
             #before the return eventual commands have to be processed
             await bot.process_commands(message)
-            #This one has to copy parts of the original message, I could do it as a special but I think that would be largely inefficient, as I'd in every case try to send an empty message
-            if 'i\'m' in message.content.lower():
-                start = message.content.find('i\'m') + 3
-                await message.channel.send(f'Hi {message.content[start:]}, I\'m Soupi')
-
-            if 'i am' in message.content.lower():
-                start= message.content.find('i am') + 4
-                await message.channel.send(f'Hi{message.content[start:]}, I\'m Soupi')
             return
         
         #a random of the answers saved in possible_answers is choosen and broadcast
         msg = random.choice(possible_answers)
-        await message.channel.send(msg)
+        if not len(msg) == 0:
+            await message.channel.send(msg)
+
 
         #if a personalized message was added it is broadcast, too
         if added_msg:

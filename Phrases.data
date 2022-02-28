@@ -86,6 +86,16 @@ phrases=    "!badpun"
 answers=    "I'm not doing this."
 everybody= True
 [/BADPUN]
+
+[I AM DADJOKE]
+phrases=    "i am",
+            "im",
+            "i'm",
+            "ich bin"
+answers=    ""
+everybody=  True
+special=    i_am_dadjoke
+[/I AM DADJOKE]
 [[/PUNS]]
 
 
