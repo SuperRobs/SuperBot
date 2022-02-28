@@ -19,8 +19,8 @@ from discord.ext import commands
 #//I find it rather spammy, so I probably won't implement it, but Caro insisted I put it on here, so I'll just keep it and might delete it sometime else
 #(DM new users) 
 #
+#Hangman Command
 #!wiki command
-#I'm ... Dadjoke
 #text adventure     //programming-wise pretty boring but really cool mechanic
 #reload DM chats (get messages written in absence and old ones) (command usable in DM by Admin only?) (on Bot start?)
 
@@ -213,9 +213,9 @@ async def mute(ctx, target: discord.Member = None, t: int = 10, format = 'm'):
     asyncio.get_event_loop().create_task(wait_and_unmute(target, role, t))
 
 #get a codenames lobby link
-@bot.command(name='codenames', help='', aliases=['Codenames'])
-async def codenames(ctx):
-    await ctx.send('https://codenames.game/room/delta-hotel-school')
+#@bot.command(name='codenames', help='', aliases=['Codenames'])
+#async def codenames(ctx):
+#    await ctx.send('https://codenames.game/room/delta-hotel-school')
 
 @bot.command(name='reloadLogs', help='If you don\'t know what this does it\'s not meant for you')
 async def reloadLogs(ctx):
@@ -358,41 +358,36 @@ async def on_message(message):
         #contains the file
         data = list(f)
         for line in data:
-            #if searchAnswers:
-            #    print(line)
-            #triggered by addMult
+            #triggered by addMult and replaceMult
             if key == 'searchMult':
-                start = line.index('"')
-                end = line.index('"',start+1)
-                added_msg.append(line[start+1:end])
-                #MUST BE AT END OF LINE TO NOT CATCH COMMAS IN PHRASES
-                if not (',' in line):
+                start = line.index('"') + 1
+                end = line.index('"',start)
+                added_msg.append(line[start:end])
+                if not (',' in line[end:]):
                     key = ''
             #if the message is found and there's an extra case for one or more users
             if key == 'False' and searchAnswers:
                 if (message.author.name+':') in line:
-                    start = line.index('"')
+                    start = line.index('"') + 1
                     end = line.index('"',start+1)
                     if 'add=' in line:
-                        added_msg.append(line[start+1:end])
+                        added_msg.append(line[start:end])
                     if 'replace=' in line:
                         possible_answers.clear()
-                        possible_answers.append(line[start+1:end])
+                        possible_answers.append(line[start:end])
                     if 'addMult=' in line:
-                        start = line.index('"')
-                        end = line.index('"',start+1)
-                        added_msg.append(line[start+1:end])
-                        #TODO
-                        #MUST BE AT END OF LINE TO NOT CATCH COMMAS IN PHRASES
-                        if ',' in line:
+                        start = line.index('"') + 1
+                        end = line.index('"',start)
+                        added_msg.append(line[start:end])
+                        if ',' in line[end:]:
                             key = 'searchMult'
                         else:
                             key = ''
                     if 'replaceMult=' in line:
                         possible_answers.clear()
-                        start = line.index('"')
-                        end = line.index('"',start+1)
-                        possible_answers.append(line[start+1:end])
+                        start = line.index('"') + 1
+                        end = line.index('"',start)
+                        possible_answers.append(line[start:end])
                         if ',' in line[end:]:
                             key = 'searchMult'
                         else:
@@ -429,7 +424,8 @@ async def on_message(message):
                 #TODO 
                 # -> check if there is a letter afterwards, ignore if there is one
                 if line[start:end] in message.content.lower():
-                    if message.content[message.content.find(line[start:end])+1] == ' ' or message.content[message.content.find(line[start:end])+1] == '\n': #this only works if it is a space or newline, but what if it is empty/out of range? (TODO Also test me!)
+                    #TODO this one doesn't work yet
+                    #if message.content[message.content.find(line[start:end])+1] == ' ' or message.content[message.content.find(line[start:end])+1] == '\n': #this only works if it is a space or newline, but what if it is empty/out of range?
                         searchAnswers = True
             #if searchAnswers is true and an answers section is reached, save these answers to possible_answers
             elif searchAnswers and key == 'answers':
