@@ -369,7 +369,7 @@ async def on_message(message):
             if key == 'False' and searchAnswers:
                 if (message.author.name+':') in line:
                     start = line.index('"') + 1
-                    end = line.index('"',start+1)
+                    end = line.index('"',start)#+1)
                     if 'add=' in line:
                         added_msg.append(line[start:end])
                     if 'replace=' in line:
@@ -451,10 +451,28 @@ async def on_message(message):
             #this is part of every ending tag and thus will be used as escape combination, making the closing tag mandatory while the opening tag is not (even though greatly encouraged)
             elif searchAnswers and '[/' in line:
                 break
-        #this else refers to the loop of the lines, it triggers when no
+        #this else refers to the loop of the lines, it triggers when no phrase was found
         else:
             #before the return eventual commands have to be processed
             await bot.process_commands(message)
+            #This one has to copy parts of the original message, I could do it as a special but I think that would be largely inefficient, as I'd in every case try to send an empty message
+            if 'i\'m' in message.content.lower():
+                print(start)
+                print(message.content.lower().find('i\'m'))
+                start = message.content.lower().find('i\'m') + 3
+                print(start)
+                await message.channel.send(f'Hi{message.content[start:]}, I\'m Soupi')
+
+            if 'i am' in message.content.lower():
+                print(start)
+                print(message.content.lower().find('i am'))
+                start= message.content.lower().find('i am') + 4
+                print(start)
+                await message.channel.send(f'Hi{message.content[start:]}, I\'m Soupi')
+
+            if 'ich bin' in message.content.lower():
+                start= message.content.lower().find('ich bin') + 4
+                await message.channel.send(f'Hi{message.content[start:]}, ich bin Soupi')
             return
         
         #a random of the answers saved in possible_answers is choosen and broadcast
