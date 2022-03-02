@@ -41,7 +41,7 @@ phrases=    "guten tag",
             "hewwu",
             "hewwü",
             "hey",
-            "hi ",
+            "hi",
             "howdy",
             "moin",
             "tach",
@@ -86,6 +86,16 @@ phrases=    "!badpun"
 answers=    "I'm not doing this."
 everybody= True
 [/BADPUN]
+
+[I AM DADJOKE]
+phrases=    "i am",
+            "im",
+            "i'm",
+            "ich bin"
+answers=    ""
+everybody=  True
+special=    i_am_dadjoke
+[/I AM DADJOKE]
 [[/PUNS]]
 
 
@@ -127,8 +137,8 @@ phrases=    "fick mich",
             "ficke"
 answers=    "no thanks I'll pass"
 everybody= False
-    Mirakula: replaceMult=  "I hadn't imagined you so indiscreet...",
-                            "...Is that a serious offer; Moomy? 🥺"
+    Mirakula: replaceMult=  "I hadn't imagined you such indiscreet...",
+                            "...Is that a serious offer, Moomy? 🥺"
     Aranie: replace=        "You always smexy! But not here! Or... If you want...?"
     orCa64: replace=        "What are you doing step-mother?"
     Superrobs: replace=     "uhh, Daddy?"
@@ -145,7 +155,7 @@ phrases=    "geil",
             "puff",
             "bock",
             "komm",
-            "come ",
+            "come",
             "comi"
 answers=    "that's what she said"
 everybody= True

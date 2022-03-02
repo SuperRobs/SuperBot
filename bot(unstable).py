@@ -19,8 +19,8 @@ from discord.ext import commands
 #//I find it rather spammy, so I probably won't implement it, but Caro insisted I put it on here, so I'll just keep it and might delete it sometime else
 #(DM new users) 
 #
+#Hangman Command
 #!wiki command
-#I'm ... Dadjoke
 #text adventure     //programming-wise pretty boring but really cool mechanic
 #reload DM chats (get messages written in absence and old ones) (command usable in DM by Admin only?) (on Bot start?)
 
@@ -56,7 +56,6 @@ if os.path.isfile(COUNTER_FILE):
         good_bot_counter = json.load(handle)
 else:
     good_bot_counter = 0
-
 
 #these are to be used asynchronously, so that the rest of the program can continue
 async def wait_and_unmute(user, role, t):
@@ -213,9 +212,9 @@ async def mute(ctx, target: discord.Member = None, t: int = 10, format = 'm'):
     asyncio.get_event_loop().create_task(wait_and_unmute(target, role, t))
 
 #get a codenames lobby link
-@bot.command(name='codenames', help='', aliases=['Codenames'])
-async def codenames(ctx):
-    await ctx.send('https://codenames.game/room/delta-hotel-school')
+#@bot.command(name='codenames', help='', aliases=['Codenames'])
+#async def codenames(ctx):
+#    await ctx.send('https://codenames.game/room/delta-hotel-school')
 
 @bot.command(name='reloadLogs', help='If you don\'t know what this does it\'s not meant for you')
 async def reloadLogs(ctx):
@@ -314,6 +313,7 @@ async def on_message(message):
                     wordchainHandler.status = gameStates.POSTROUND
                     wordchainHandler.players = rotate(wordchainHandler.players, 1)
             if wordchainHandler.status == gameStates.POSTROUND:
+                #this would read out the whole sentence, but we don't want that atm
                 #content = ''
                 #for part in wordchainHandler.sentence:
                 #    if not content ==  '':
@@ -323,8 +323,6 @@ async def on_message(message):
                 await message.channel.send('-')
                 wordchainHandler.sentence.clear()
                 wordchainHandler.status = gameStates.ROUND
-
-            
 
         illegal_channels = [
             #Bot Testing
@@ -360,40 +358,36 @@ async def on_message(message):
         #contains the file
         data = list(f)
         for line in data:
-            #if searchAnswers:
-            #    print(line)
-            #triggered by addMult
+            #triggered by addMult and replaceMult
             if key == 'searchMult':
-                start = line.index('"')
-                end = line.index('"',start+1)
-                added_msg.append(line[start+1:end])
-                #MUST BE AT END OF LINE TO NOT CATCH COMMAS IN PHRASES
-                if not (',' in line):
+                start = line.index('"') + 1
+                end = line.index('"',start)
+                added_msg.append(line[start:end])
+                if not (',' in line[end:]):
                     key = ''
             #if the message is found and there's an extra case for one or more users
             if key == 'False' and searchAnswers:
                 if (message.author.name+':') in line:
-                    start = line.index('"')
-                    end = line.index('"',start+1)
-                    if 'add=' in line: 
-                        added_msg.append(line[start+1:end])
+                    start = line.index('"') + 1
+                    end = line.index('"',start)#+1)
+                    if 'add=' in line:
+                        added_msg.append(line[start:end])
                     if 'replace=' in line:
                         possible_answers.clear()
-                        possible_answers.append(line[start+1:end])
+                        possible_answers.append(line[start:end])
                     if 'addMult=' in line:
-                        start = line.index('"')
-                        end = line.index('"',start+1)
-                        added_msg.append(line[start+1:end])
-                        #MUST BE AT END OF LINE TO NOT CATCH COMMAS IN PHRASES
-                        if ',' in line:
+                        start = line.index('"') + 1
+                        end = line.index('"',start)
+                        added_msg.append(line[start:end])
+                        if ',' in line[end:]:
                             key = 'searchMult'
                         else:
                             key = ''
                     if 'replaceMult=' in line:
                         possible_answers.clear()
-                        start = line.index('"')
-                        end = line.index('"',start+1)
-                        possible_answers.append(line[start+1:end])
+                        start = line.index('"') + 1
+                        end = line.index('"',start)
+                        possible_answers.append(line[start:end])
                         if ',' in line[end:]:
                             key = 'searchMult'
                         else:
@@ -411,33 +405,53 @@ async def on_message(message):
                 global good_bot_counter
                 if 'increment_good_bot' in line:
                     good_bot_counter += 1
+                    with open(COUNTER_FILE, 'w') as handle:
+                        json.dump(good_bot_counter, handle)
                 elif 'decrement_good_bot' in line:
                     if good_bot_counter > 0:
                         good_bot_counter -= 1
-                with open(COUNTER_FILE, 'w') as handle:
-                    json.dump(good_bot_counter, handle)
-                if 'mute' in line:
-                    role = discord.utils.get(message.guild.roles, name='muted')                 
+                    with open(COUNTER_FILE, 'w') as handle:
+                        json.dump(good_bot_counter, handle)
+                elif 'mute' in line:
+                    role = discord.utils.get(message.guild.roles, name='muted')
                     if role == None:
                         await message.channel.send('please create a "muted" role to apply!')
                         return
                     await message.author.add_roles(role)
                     emoji_muted.append(message)
+                elif 'i_am_dadjoke' in line:
+                    #for the different versions this should reply to, I could prly also read it directly from the Phrases file, as to make it more dynamic, however that's not important for now (still TODO)
+                    if 'i\'m' in message.content.lower():
+                        start = message.content.lower().find('i\'m') + 4
+                    elif 'i am' in message.content.lower():
+                        start = message.content.lower().find('i am') + 5
+                    elif 'ich bin' in message.content.lower():
+                        start = message.content.lower().find('ich bin') + 8
+                    elif 'im' in message.content.lower():
+                        start = message.content.lower().find('im') + 3
+                    await message.channel.send(f'Hi {message.content[start:]}, I\'m Soupi')
             #compare message with phrases in file to see if any matches
             if key == 'phrases':
-                start = line.index('"')
-                end = line.index('"',start+1)
-                if line[start+1:end] in message.content.lower():   
-                    searchAnswers = True
+                start = line.index('"')+1
+                end = line.index('"',start)
+                # -> check if there is a letter afterwards, ignore if there is either no character at all, a space or a newline, if more characters are added I could use a list of those to check against, but for just two it will suffice this way
+                if line[start:end] in message.content.lower():
+                    try:
+                        if message.content[message.content.lower().find(line[start:end])+(end-start)] == ' ' or message.content[message.content.lower().find(line[start:end])+(end-start)] == '\n':
+                            searchAnswers = True
+                    #this will trigger if the msg ends after the phrase (and hopefully not if there's another error I didn't consider yet, just for security purpose it will outpout a debug msg)
+                    except IndexError:
+                        print('exception triggered (l.444). This normally shouldn\'t mean anything (it\'s intended behaviour actually), you just might want to look into it if you are seeing weird behaviour in relation to this part of the code')
+                        searchAnswers = True
             #if searchAnswers is true and an answers section is reached, save these answers to possible_answers
             elif searchAnswers and key == 'answers':
-                start = line.index('"')
-                end = line.index('"',start+1)
-                possible_answers.append(line[start+1:end])
+                start = line.index('"')+1
+                end = line.index('"',start)
+                possible_answers.append(line[start:end])
             #this is part of every ending tag and thus will be used as escape combination, making the closing tag mandatory while the opening tag is not (even though greatly encouraged)
             elif searchAnswers and '[/' in line:
                 break
-        #this else refers to the loop of the lines, it triggers when no 
+        #this else refers to the loop of the lines, it triggers when no phrase was found
         else:
             #before the return eventual commands have to be processed
             await bot.process_commands(message)
@@ -463,7 +477,9 @@ async def on_message(message):
         
         #a random of the answers saved in possible_answers is choosen and broadcast
         msg = random.choice(possible_answers)
-        await message.channel.send(msg)
+        if not len(msg) == 0:
+            await message.channel.send(msg)
+
 
         #if a personalized message was added it is broadcast, too
         if added_msg:
