@@ -57,7 +57,6 @@ if os.path.isfile(COUNTER_FILE):
 else:
     good_bot_counter = 0
 
-
 #these are to be used asynchronously, so that the rest of the program can continue
 async def wait_and_unmute(user, role, t):
     await asyncio.sleep(t)
@@ -314,6 +313,7 @@ async def on_message(message):
                     wordchainHandler.status = gameStates.POSTROUND
                     wordchainHandler.players = rotate(wordchainHandler.players, 1)
             if wordchainHandler.status == gameStates.POSTROUND:
+                #this would read out the whole sentence, but we don't want that atm
                 #content = ''
                 #for part in wordchainHandler.sentence:
                 #    if not content ==  '':
@@ -420,6 +420,7 @@ async def on_message(message):
                     await message.author.add_roles(role)
                     emoji_muted.append(message)
                 elif 'i_am_dadjoke' in line:
+                    #for the different versions this should reply to, I could prly also read it directly from the Phrases file, as to make it more dynamic, however that's not important for now (still TODO)
                     if 'i\'m' in message.content.lower():
                         start = message.content.lower().find('i\'m') + 4
                     elif 'i am' in message.content.lower():
@@ -433,11 +434,14 @@ async def on_message(message):
             if key == 'phrases':
                 start = line.index('"')+1
                 end = line.index('"',start)
-                #TODO 
-                # -> check if there is a letter afterwards, ignore if there is one
+                # -> check if there is a letter afterwards, ignore if there is either no character at all, a space or a newline, if more characters are added I could use a list of those to check against, but for just two it will suffice this way
                 if line[start:end] in message.content.lower():
-                    #TODO this one doesn't work yet
-                    #if message.content[message.content.find(line[start:end])+1] == ' ' or message.content[message.content.find(line[start:end])+1] == '\n': #this only works if it is a space or newline, but what if it is empty/out of range?
+                    try:
+                        if message.content[message.content.lower().find(line[start:end])+(end-start)] == ' ' or message.content[message.content.lower().find(line[start:end])+(end-start)] == '\n':
+                            searchAnswers = True
+                    #this will trigger if the msg ends after the phrase (and hopefully not if there's another error I didn't consider yet, just for security purpose it will outpout a debug msg)
+                    except IndexError:
+                        print('exception triggered (l.444). This normally shouldn\'t mean anything (it\'s intended behaviour actually), you just might want to look into it if you are seeing weird behaviour in relation to this part of the code')
                         searchAnswers = True
             #if searchAnswers is true and an answers section is reached, save these answers to possible_answers
             elif searchAnswers and key == 'answers':
