@@ -277,7 +277,7 @@ async def on_message(message):
         Path('DMs/').mkdir(parents=True, exist_ok=True)
         path = 'DMs/'+message.channel.recipient.name+'.data'
         with open(path, 'a+', encoding='utf-8') as f:
-            f.write(message.author.name+': '+message.content+'\n')
+            f.write(message.author.name+': '+message.content+' - '+message.created_at.strftime('%d/%m/%y, %H:%M:%S')+'\n')
 
     #don't react to own or other bots' messages to avoid infinite self answer loops (f.e. a possible hello loop)
     if message.author.bot:
