@@ -30,12 +30,16 @@ special= decrement_good_bot
 phrases=    "guten tag",
             "hallo",
             "hallö",
+            "hallöle",
             "hallü",
+            "hallüwü",
             "hello",
+            "Hellowo",
             "hellö",
             "hellu",
             "helluwu",
             "hellü",
+            "hellüwü",
             "henlo",
             "hewwo",
             "hewwu",
@@ -45,15 +49,19 @@ phrases=    "guten tag",
             "howdy",
             "moin",
             "tach",
+            "tachchen",
             "welcome"
 answers=    "Hallo",
             "Hallö",
             "Hallü",
+            "hallüwü",
             "Hello",
+            "Hellowo",
             "Hellö",
             "Hellu",
             "Helluwu",
             "Hellü",
+            "hellüwü",
             "Henlo",
             "Hewwo",
             "Hewwu",
@@ -86,6 +94,7 @@ phrases=    "!badpun"
 answers=    "I'm not doing this."
 everybody= True
 [/BADPUN]
+[[/PUNS]]
 
 [I AM DADJOKE]
 phrases=    "i am",
@@ -96,8 +105,6 @@ answers=    ""
 everybody=  True
 special=    i_am_dadjoke
 [/I AM DADJOKE]
-[[/PUNS]]
-
 
 [WHAT DO YOU SAY]
 phrases=    "soupi, what do you say",
@@ -155,6 +162,10 @@ phrases=    "geil",
             "puff",
             "bock",
             "komm",
+            "kommen",
+            "kommt",
+            "kommst",
+            "komme",
             "come",
             "comi"
 answers=    "that's what she said"
